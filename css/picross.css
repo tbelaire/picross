@@ -146,12 +146,6 @@ body.dark .custom h5 {
 	padding: 5px 10px;
 }
 
-#solve {
-	font-size: 15px;
-	font-weight: bold;
-	padding: 10px;
-}
-
 #seed {
 	background-color: #efefef;
 }
@@ -164,6 +158,20 @@ body.dark .custom h5 {
 
 #progress.done {
 	color: #080;
+}
+
+#mistakes {
+	font-size: 20px;
+	font-weight: bold;
+	color: #999;
+}
+
+#mistakes.error {
+	color: #A00;
+}
+
+body.dark #mistakes.error {
+	color: #C00;
 }
 
 #puzzle {
@@ -209,16 +217,6 @@ body.dark #puzzle td.key em {
 	color: #666;
 }
 
-#puzzle td.key.left em, #puzzle td.key.left strong {
-	margin-right: 5px;
-	padding: 0 1px;
-}
-
-#puzzle.complete td.key strong {
-	background-color: #c00;
-	color: #fff;
-}
-
 #puzzle td.key.top {
 	line-height: 1.3;
 	padding-bottom: 5px;
@@ -228,7 +226,7 @@ body.dark #puzzle td.key em {
 
 #puzzle td.key.left {
 	min-width: 25px;
-	padding-right: 3px;
+	padding-right: 10px;
 	text-align: right;
 	vertical-align: middle;
 }
