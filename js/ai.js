@@ -11,4 +11,7 @@ class Ai {
         this.model = model;
         console.log("Loaded with a model");
     }
+    step() {
+      console.log("One small step for ai, one giant leap for AIKIND");
+    }
 }

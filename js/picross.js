@@ -348,7 +348,8 @@ $(function() {
 		mouseEndY: -1,
 		mouseMode: 0,
 
-		initialize: function() {
+		initialize: function(options) {
+			this.ai = options.ai;
 			this.model.resume();
 			$('#dimensions').val(this.model.get('dimensionWidth') + 'x' + this.model.get('dimensionHeight'));
 			if(this.model.get('darkMode')) {
@@ -404,6 +405,7 @@ $(function() {
 
         aiStep: function(e) {
             console.log("AI go beep boop");
+			this.ai.step();
 		},
 
 		newCustom: function(e) {
