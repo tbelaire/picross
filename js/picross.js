@@ -728,7 +728,9 @@ $(function() {
 		}
 	});
 
-	new PuzzleView({model: new PuzzleModel()});
+	var theModel = new PuzzleModel();
+	var theAi = new Ai(theModel);
+	new PuzzleView({model: theModel, ai: theAi});
 
 });
 
