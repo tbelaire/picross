@@ -146,6 +146,12 @@ body.dark .custom h5 {
 	padding: 5px 10px;
 }
 
+#AI {
+	font-weight: bold;
+	padding: 5px 10px;
+    margin-top: 10px;
+}
+
 #seed {
 	background-color: #efefef;
 }
