@@ -327,6 +327,7 @@ $(function() {
 			} else {
 				return {
 					"click #new": "newGame",
+                    "click #AI": "aiStep",
 					"change #dark": "changeDarkMode",
 					"change #easy": "changeEasyMode",
 					"mousedown": "clickStart",
@@ -399,6 +400,10 @@ $(function() {
 		newGame: function(e) {
 			$('#customSeed').val('');
 			this._newGame();
+		},
+
+        aiStep: function(e) {
+            console.log("AI go beep boop");
 		},
 
 		newCustom: function(e) {
