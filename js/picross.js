@@ -322,7 +322,7 @@ $(function() {
 					"submit #customForm": "newCustom",
 					"click #seed": function(e) { e.currentTarget.select(); },
 					"click #customSeed": function(e) { e.currentTarget.select(); },
-					"contextmenu": function(e) { e.preventDefault(); }
+					"contextmenu #puzzle": function(e) { e.preventDefault(); }
 				}
 			} else {
 				return {
@@ -336,7 +336,7 @@ $(function() {
 					"submit #customForm": "newCustom",
 					"click #seed": function(e) { e.currentTarget.select(); },
 					"click #customSeed": function(e) { e.currentTarget.select(); },
-					"contextmenu": function(e) { e.preventDefault(); }
+					"contextmenu #puzzle": function(e) { e.preventDefault(); }
 				}
 			}
 		},
