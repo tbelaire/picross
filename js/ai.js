@@ -23,6 +23,13 @@ class Ai {
       console.log("One small step for ai, one giant leap for AIKIND");
     }
 
+    getRow(i) {
+        return this.model.get('state')[i];
+    }
+    getCol(j) {
+        return this.model.get('state').map(row => row[j]);
+    }
+
     getCell(i, j) {
         return this.model.get('state')[i][j];
     }
