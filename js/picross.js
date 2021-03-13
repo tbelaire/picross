@@ -162,6 +162,7 @@ $(function() {
 				complete: false,
 				seed: seed
 			}, {silent: true});
+			this.ai.initialize();
 			this.trigger('change');
 		},
 
