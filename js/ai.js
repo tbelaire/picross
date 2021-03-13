@@ -22,4 +22,8 @@ class Ai {
     step() {
       console.log("One small step for ai, one giant leap for AIKIND");
     }
+
+    getCell(i, j) {
+        return this.model.get('state')[i][j];
+    }
 }
