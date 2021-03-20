@@ -7,6 +7,8 @@ function testFunc() {console.log("lmao");}
 testFunc();
 
 class Ai {
+    model: any;
+
     constructor(model) {
         this.model = model;
         console.log("Loaded with a model");
