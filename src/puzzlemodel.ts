@@ -1,8 +1,16 @@
 
-// localStorage save format versioning
-let saveVersion = '2019.08.03';
-
 class PuzzleModel extends Backbone.Model {
+
+    storage: Store;
+
+    constructor(storage?:Store) {
+        super();
+        if (storage) {
+            this.storage = storage;
+        } else {
+            this.storage = new LocalStorage();
+        }
+    }
 
     defaults() {
         return {
@@ -27,62 +35,31 @@ class PuzzleModel extends Backbone.Model {
     }
 
     save(attributes?: Partial<any>, options?: Backbone.ModelSaveOptions): any {
-        if(localStorageSupport()) {
-            localStorage['picross.saveVersion'] = saveVersion;
-
-            localStorage['picross.dimensionWidth'] = JSON.stringify(this.get('dimensionWidth'));
-            localStorage['picross.dimensionHeight'] = JSON.stringify(this.get('dimensionHeight'));
-            localStorage['picross.solution'] = JSON.stringify(this.get('solution'));
-            localStorage['picross.state'] = JSON.stringify(this.get('state'));
-            localStorage['picross.hintsX'] = JSON.stringify(this.get('hintsX'));
-            localStorage['picross.hintsY'] = JSON.stringify(this.get('hintsY'));
-            localStorage['picross.mistakes'] = JSON.stringify(this.get('mistakes'));
-            localStorage['picross.guessed'] = JSON.stringify(this.get('guessed'));
-            localStorage['picross.total'] = JSON.stringify(this.get('total'));
-            localStorage['picross.complete'] = JSON.stringify(this.get('complete'));
-            localStorage['picross.seed'] = JSON.stringify(this.get('seed'));
-            localStorage['picross.darkMode'] = JSON.stringify(this.get('darkMode'));
-            localStorage['picross.easyMode'] = JSON.stringify(this.get('easyMode'));
-        }
+        this.storage.save({
+            dimensionWidth: this.get('dimensionWidth'),
+            dimensionHeight: this.get('dimensionHeight'),
+            solution: this.get('solution'),
+            state: this.get('state'),
+            hintsX: this.get('hintsX'),
+            hintsY: this.get('hintsY'),
+            mistakes: this.get('mistakes'),
+            guessed: this.get('guessed'),
+            total: this.get('total'),
+            complete: this.get('complete'),
+            seed: this.get('seed'),
+            darkMode: this.get('darkMode'),
+            easyMode: this.get('easyMode'),
+        });
         return false;
     }
 
     resume() {
-
-        if(!localStorageSupport() || localStorage['picross.saveVersion'] != saveVersion) {
+        let gamestate = this.storage.load();
+        if(gamestate == null) {
             this.reset();
             return;
         }
-
-        let dimensionWidth = JSON.parse(localStorage['picross.dimensionWidth']);
-        let dimensionHeight = JSON.parse(localStorage['picross.dimensionHeight']);
-        let solution = JSON.parse(localStorage['picross.solution']);
-        let state = JSON.parse(localStorage['picross.state']);
-        let hintsX = JSON.parse(localStorage['picross.hintsX']);
-        let hintsY = JSON.parse(localStorage['picross.hintsY']);
-        let mistakes = JSON.parse(localStorage['picross.mistakes']);
-        let guessed = JSON.parse(localStorage['picross.guessed']);
-        let total = JSON.parse(localStorage['picross.total']);
-        let complete = JSON.parse(localStorage['picross.complete']);
-        let seed = JSON.parse(localStorage['picross.seed']);
-        let darkMode = JSON.parse(localStorage['picross.darkMode']);
-        let easyMode = JSON.parse(localStorage['picross.easyMode']);
-
-        this.set({
-            dimensionWidth: dimensionWidth,
-            dimensionHeight: dimensionHeight,
-            solution: solution,
-            state: state,
-            hintsX: hintsX,
-            hintsY: hintsY,
-            mistakes: mistakes,
-            guessed: guessed,
-            total: total,
-            complete: complete,
-            seed: seed,
-            darkMode: darkMode,
-            easyMode: easyMode
-        });
+        this.set(gamestate);
     }
 
     reset(customSeed?: any) {
@@ -297,12 +274,4 @@ class PuzzleModel extends Backbone.Model {
         }, {silent: true});
         this.trigger('change');
     }
-}
-
-function localStorageSupport() {
-	try {
-		return 'localStorage' in window && window['localStorage'] !== null;
-	} catch (e) {
-		return false;
-	}
 }
