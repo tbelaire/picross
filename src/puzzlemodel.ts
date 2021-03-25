@@ -1,6 +1,6 @@
 
 // localStorage save format versioning
-var saveVersion = '2019.08.03';
+let saveVersion = '2019.08.03';
 
 class PuzzleModel extends Backbone.Model {
 
@@ -54,19 +54,19 @@ class PuzzleModel extends Backbone.Model {
             return;
         }
 
-        var dimensionWidth = JSON.parse(localStorage['picross.dimensionWidth']);
-        var dimensionHeight = JSON.parse(localStorage['picross.dimensionHeight']);
-        var solution = JSON.parse(localStorage['picross.solution']);
-        var state = JSON.parse(localStorage['picross.state']);
-        var hintsX = JSON.parse(localStorage['picross.hintsX']);
-        var hintsY = JSON.parse(localStorage['picross.hintsY']);
-        var mistakes = JSON.parse(localStorage['picross.mistakes']);
-        var guessed = JSON.parse(localStorage['picross.guessed']);
-        var total = JSON.parse(localStorage['picross.total']);
-        var complete = JSON.parse(localStorage['picross.complete']);
-        var seed = JSON.parse(localStorage['picross.seed']);
-        var darkMode = JSON.parse(localStorage['picross.darkMode']);
-        var easyMode = JSON.parse(localStorage['picross.easyMode']);
+        let dimensionWidth = JSON.parse(localStorage['picross.dimensionWidth']);
+        let dimensionHeight = JSON.parse(localStorage['picross.dimensionHeight']);
+        let solution = JSON.parse(localStorage['picross.solution']);
+        let state = JSON.parse(localStorage['picross.state']);
+        let hintsX = JSON.parse(localStorage['picross.hintsX']);
+        let hintsY = JSON.parse(localStorage['picross.hintsY']);
+        let mistakes = JSON.parse(localStorage['picross.mistakes']);
+        let guessed = JSON.parse(localStorage['picross.guessed']);
+        let total = JSON.parse(localStorage['picross.total']);
+        let complete = JSON.parse(localStorage['picross.complete']);
+        let seed = JSON.parse(localStorage['picross.seed']);
+        let darkMode = JSON.parse(localStorage['picross.darkMode']);
+        let easyMode = JSON.parse(localStorage['picross.easyMode']);
 
         this.set({
             dimensionWidth: dimensionWidth,
@@ -87,34 +87,34 @@ class PuzzleModel extends Backbone.Model {
 
     reset(customSeed?: any) {
 
-        var seed = customSeed;
+        let seed = customSeed;
         if(seed === undefined) {
             seed = '' + new Date().getTime();
         }
         (Math as any).seedrandom(seed);
 
-        var solution = [];
-        var state = [];
-        var total = 0;
+        let solution = [];
+        let state = [];
+        let total = 0;
 
-        for(var i = 0; i < this.get('dimensionHeight'); i++) {
+        for(let i = 0; i < this.get('dimensionHeight'); i++) {
             solution[i] = [];
             state[i] = [];
-            for(var j = 0; j < this.get('dimensionWidth'); j++) {
-                var random = Math.ceil(Math.random() * 2);
+            for(let j = 0; j < this.get('dimensionWidth'); j++) {
+                let random = Math.ceil(Math.random() * 2);
                 solution[i][j] = random;
                 total += (random - 1);
                 state[i][j] = 0;
             }
         }
 
-        var hintsX = [];
-        var hintsY = [];
+        let hintsX = [];
+        let hintsY = [];
 
-        for(var i = 0; i < this.get('dimensionHeight'); i++) {
-            var streak = 0;
+        for(let i = 0; i < this.get('dimensionHeight'); i++) {
+            let streak = 0;
             hintsX[i] = [];
-            for(var j = 0; j < this.get('dimensionWidth'); j++) {
+            for(let j = 0; j < this.get('dimensionWidth'); j++) {
                 if(solution[i][j] === 1) {
                     if(streak > 0) {
                         hintsX[i].push(streak);
@@ -130,10 +130,10 @@ class PuzzleModel extends Backbone.Model {
             }
         }
 
-        for(var j = 0; j < this.get('dimensionWidth'); j++) {
-            var streak = 0;
+        for(let j = 0; j < this.get('dimensionWidth'); j++) {
+            let streak = 0;
             hintsY[j] = [];
-            for(var i = 0; i < this.get('dimensionHeight'); i++) {
+            for(let i = 0; i < this.get('dimensionHeight'); i++) {
                 if(solution[i][j] === 1) {
                     if(streak > 0) {
                         hintsY[j].push(streak);
@@ -164,12 +164,12 @@ class PuzzleModel extends Backbone.Model {
     }
 
     guess(x, y, guess) {
-        var solution = this.get('solution')[x][y];
-        var state = this.get('state');
-        var hintsX = this.get('hintsX');
-        var hintsY = this.get('hintsY');
-        var mistakes = this.get('mistakes');
-        var guessed = this.get('guessed');
+        let solution = this.get('solution')[x][y];
+        let state = this.get('state');
+        let hintsX = this.get('hintsX');
+        let hintsY = this.get('hintsY');
+        let mistakes = this.get('mistakes');
+        let guessed = this.get('guessed');
 
         if(state[x][y] != 0) {
             // already guessed
@@ -188,20 +188,20 @@ class PuzzleModel extends Backbone.Model {
         }
 
         // cross out x -- left
-        var tracker = 0;
-        for(var i = 0; i < hintsX[x].length; i++) {
+        let tracker = 0;
+        for(let i = 0; i < hintsX[x].length; i++) {
             while(Math.abs(state[x][tracker]) === 1) {
                 tracker++;
             }
             if(state[x][tracker] === 0) {
                 break;
             }
-            var streak = hintsX[x][i];
+            let streak = hintsX[x][i];
             if(streak < 0) {
                 tracker += Math.abs(streak);
                 continue;
             }
-            for(var j = 1; j <= streak; j++) {
+            for(let j = 1; j <= streak; j++) {
                 if(Math.abs(state[x][tracker]) === 2) {
                     tracker++;
                     if(j === streak && (tracker === state[0].length || Math.abs(state[x][tracker]) === 1)) {
@@ -214,19 +214,19 @@ class PuzzleModel extends Backbone.Model {
         }
         // cross out x -- right
         tracker = state[0].length - 1;
-        for(var i = hintsX[x].length - 1; i >= 0; i--) {
+        for(let i = hintsX[x].length - 1; i >= 0; i--) {
             while(Math.abs(state[x][tracker]) === 1) {
                 tracker--;
             }
             if(state[x][tracker] === 0) {
                 break;
             }
-            var streak = hintsX[x][i];
+            let streak = hintsX[x][i];
             if(streak < 0) {
                 tracker -= Math.abs(streak);
                 continue;
             }
-            for(var j = 1; j <= streak; j++) {
+            for(let j = 1; j <= streak; j++) {
                 if(Math.abs(state[x][tracker]) === 2) {
                     tracker--;
                     if(j === streak && (tracker === -1 || Math.abs(state[x][tracker]) === 1)) {
@@ -239,19 +239,19 @@ class PuzzleModel extends Backbone.Model {
         }
         // cross out y -- top
         tracker = 0;
-        for(var i = 0; i < hintsY[y].length; i++) {
+        for(let i = 0; i < hintsY[y].length; i++) {
             while(Math.abs(state[tracker][y]) === 1) {
                 tracker++;
             }
             if(state[tracker][y] === 0) {
                 break;
             }
-            var streak = hintsY[y][i];
+            let streak = hintsY[y][i];
             if(streak < 0) {
                 tracker += Math.abs(streak);
                 continue;
             }
-            for(var j = 1; j <= streak; j++) {
+            for(let j = 1; j <= streak; j++) {
                 if(Math.abs(state[tracker][y]) === 2) {
                     tracker++;
                     if(j === streak && (tracker === state.length || Math.abs(state[tracker][y]) === 1)) {
@@ -264,19 +264,19 @@ class PuzzleModel extends Backbone.Model {
         }
         // cross out y -- bottom
         tracker = state.length - 1;
-        for(var i = hintsY[y].length - 1; i >= 0; i--) {
+        for(let i = hintsY[y].length - 1; i >= 0; i--) {
             while(Math.abs(state[tracker][y]) === 1) {
                 tracker--;
             }
             if(state[tracker][y] === 0) {
                 break;
             }
-            var streak = hintsY[y][i];
+            let streak = hintsY[y][i];
             if(streak < 0) {
                 tracker -= Math.abs(streak);
                 continue;
             }
-            for(var j = 1; j <= streak; j++) {
+            for(let j = 1; j <= streak; j++) {
                 if(Math.abs(state[tracker][y]) === 2) {
                     tracker--;
                     if(j === streak && (tracker === -1 || Math.abs(state[tracker][y]) === 1)) {
@@ -297,4 +297,12 @@ class PuzzleModel extends Backbone.Model {
         }, {silent: true});
         this.trigger('change');
     }
+}
+
+function localStorageSupport() {
+	try {
+		return 'localStorage' in window && window['localStorage'] !== null;
+	} catch (e) {
+		return false;
+	}
 }
